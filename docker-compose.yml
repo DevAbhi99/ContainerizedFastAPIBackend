@@ -12,9 +12,11 @@ services:
       - mysql_data:/var/lib/mysql
       - ./Database/fastapidb_backup.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_PASSWORD}"]
-      timeout: 20s
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--silent"]
+      interval: 10s
+      timeout: 5s
       retries: 10
+      start_period: 30s
     networks:
       - fastapi-network
 
