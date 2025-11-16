@@ -19,6 +19,7 @@ services:
       - fastapi-network
 
   fastapi:
+    build: .
     image: fastapibackend:1.0
     container_name: FastAPIContainer
     restart: always
