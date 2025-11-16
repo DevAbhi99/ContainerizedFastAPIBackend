@@ -1,0 +1,45 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: fastapi_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: fastapidb
+    ports:
+      - "3307:3306"  # Using 3307 externally to avoid conflict with local MySQL
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./Database/fastapidb_backup.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_PASSWORD}"]
+      timeout: 20s
+      retries: 10
+    networks:
+      - fastapi-network
+
+  fastapi:
+    image: fastapibackend:1.0
+    container_name: FastAPIContainer
+    restart: always
+    ports:
+      - "4500:4500"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: fastapidb
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - fastapi-network
+
+volumes:
+  mysql_data:
+
+networks:
+  fastapi-network:
+    driver: bridge
+
