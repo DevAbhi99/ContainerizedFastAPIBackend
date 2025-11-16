@@ -73,7 +73,7 @@ def postMethod(newUser:Users):
         return {'message':'Data inserted successfully'}
 
 #put method
-@api.put(f'/updateData/{id}')
+@api.put('/updateData/{id}')
 def putMethod(id:int, newUser:Users):
     with Session(engine) as session:
         user=session.get(Users, id)
@@ -81,7 +81,7 @@ def putMethod(id:int, newUser:Users):
         if not user:
             raise HTTPException(status_code=404, detail='Wrong input')
 
-        user.id=newUser.id
+      
         user.name=newUser.name
         user.age=newUser.age
         user.priority=newUser.priority
@@ -94,7 +94,7 @@ def putMethod(id:int, newUser:Users):
 
 #delete method
 
-@api.delete(f'/deleteData/{id}')
+@api.delete('/deleteData/{id}')
 def deleteMethod(id:int):
     with Session(engine) as session:
         users=session.get(Users, id)
@@ -111,9 +111,6 @@ def deleteMethod(id:int):
 @api.delete('/clearData')
 def clearMethod():
     with Session(engine) as session:
-        users=session.get(Users,id)
-        if not users:
-            raise HTTPException(status_code=404, detail="wrong input")
         
         session.exec(text('truncate table users;'))
         session.commit()

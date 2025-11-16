@@ -30,7 +30,7 @@ def testPostMethod():
 
     body2=response2.json()
 
-    assert body2['message']=='Data inserted successfully'
+    assert body1['message']=='Data inserted successfully'
 
     assert body2[1]['id']==2
     assert body2[1]['name']=='Karan'
@@ -43,7 +43,7 @@ def testUpdateMethod():
 
     payload={'name':'Mohit', 'age':22, 'priority':3}
 
-    response1=requests.put(f'{baseUrl}/updateData', json=payload)
+    response1=requests.put(f'{baseUrl}/updateData/2', json=payload)
 
     body1=response1.json()
 
@@ -55,15 +55,15 @@ def testUpdateMethod():
 
     body2=response2.json()
 
-    assert body2['message']=='Data updated successfully'
+    assert body1['message']=='Data updated successfully'
 
-    assert body2['name']=='Mohit'
+    assert body2[1]['name']=='Mohit'  
 
 
 @pytest.mark.deleteTest
 def testDeleteMethod():
 
-    response1=requests.delete(f'{baseUrl}/deleteData')
+    response1=requests.delete(f'{baseUrl}/deleteData/1')
 
     body1=response1.json()
 
