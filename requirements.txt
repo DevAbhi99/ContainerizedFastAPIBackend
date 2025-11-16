@@ -7,3 +7,5 @@ locust==2.42.0
 dotenv==0.9.9
 pymysql==1.1.2
 cryptography==46.0.3
+requests==2.32.4
+

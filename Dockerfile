@@ -3,7 +3,7 @@ FROM python:3.12-slim
 WORKDIR /app
 
 COPY /Backend/Main.py /app/
-
+COPY /APITesting /app/APITesting/
 COPY requirements.txt /app/
 
 RUN pip install -r requirements.txt
